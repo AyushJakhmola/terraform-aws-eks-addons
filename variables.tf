@@ -369,3 +369,9 @@ variable "storageClassName" {
   default     = "infra-service-sc"
   type        = string
 }
+
+variable "ingress_type" {
+  description = "Whether public or private ingress will be used for kubecost and kubeclarity."
+  default     = "public"
+  type        = string
+}

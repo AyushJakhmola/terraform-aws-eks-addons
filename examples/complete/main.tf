@@ -8,6 +8,16 @@ locals {
     Department = "Engineering"
   }
   ipv6_enabled = true
+  ingress_type = "public" ## public is Ingress and private is internal-ingress-nginx
+  domain_name  = "mgt.pro.inn"
+}
+
+data "aws_route53_zone" "selected" {
+  name = "prod.in"
+}
+
+data "aws_lb_hosted_zone_id" "main" {
+  load_balancer_type = "network"
 }
 
 module "eks-addons" {
@@ -24,10 +34,14 @@ module "eks-addons" {
   karpenter_enabled                   = true
   private_subnet_ids                  = [""]
   single_az_sc_config                 = [{ name = "infra-service-sc", zone = "${local.region}a" }]
+  ingress_type                        = local.ingress_type
+  falco_enabled                       = true
+  defectdojo_enabled                  = true
+  securecodebox_enabled               = true
   kubeclarity_enabled                 = true
-  kubeclarity_hostname                = "kubeclarity.prod.in"
+  kubeclarity_hostname                = "kubeclarity.${local.domain_name}"
   kubecost_enabled                    = true
-  kubecost_hostname                   = "kubecost.prod.in"
+  kubecost_hostname                   = "kubecost.${local.domain_name}"
   cert_manager_enabled                = true
   worker_iam_role_name                = ""
   worker_iam_role_arn                 = ""

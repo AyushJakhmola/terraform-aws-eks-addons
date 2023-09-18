@@ -23,6 +23,10 @@ module "eks_addons" {
   karpenter_enabled                   = true
   private_subnet_ids                  = [""]
   single_az_sc_config                 = [{ name = "infra-service-sc", zone = "zone-name" }]
+  ingress_type                        = "public"
+  falco_enabled                       = true
+  defectdojo_enabled                  = true
+  securecodebox_enabled               = true
   kubeclarity_enabled                 = true
   kubeclarity_hostname                = "kubeclarity.prod.in"
   kubecost_enabled                    = true
@@ -76,10 +80,11 @@ module "eks_addons" {
 
 ## Compatibility
 
-| Release | Kubernetes 1.23 | Kubernetes 1.24  | Kubernetes 1.25 |  Kubernetes 1.26 |
-|------------------|------------------|------------------|----------------------|----------------------|
-| Release 1.0.0  | &#x2714;  | &#x2714;  | &#x2714; | &#x2714; |
-| Release 1.1.0  | &#x2714;  | &#x2714;  | &#x2714; | &#x2714; |
+| Release | Kubernetes 1.23 | Kubernetes 1.24  | Kubernetes 1.25 |  Kubernetes 1.26 | Kubernetes 1.27
+|------------------|------------------|------------------|----------------------|----------------------|----------------------|
+| Release 1.0.0  | &#x2714;  | &#x2714;  | &#x2714; | &#x2714; | &#x2714; |
+| Release 1.1.0  | &#x2714;  | &#x2714;  | &#x2714; | &#x2714; | &#x2714; |
+| Release 1.2.0  | &#x2714;  | &#x2714;  | &#x2714; | &#x2714; | &#x2714; |
 
 
 ## IAM Permissions
@@ -184,6 +189,24 @@ Velero is designed to work with cloud native environments, making it a popular c
   <summary> Kubecost </summary>
   Kubecost provides real-time cost visibility and insights for teams using Kubernetes, helping you continuously reduce your cloud costs. Breakdown costs by any Kubernetes concepts, including deployment, service, namespace label, and more.
 </details>
+<details>
+  <summary> DefectDojo </summary>
+  DefectDojo is a security orchestration and vulnerability management platform. DefectDojo allows you to manage your application security program, maintain product and application information, triage vulnerabilities and push findings to systems. DefectDojo enriches and refines vulnerability data using a number of heuristic algorithms that improve with the more you use the platform.
+</details>
+<details>
+  <summary> Falco </summary>
+  Falco is a cloud native runtime security tool for Linux operating systems. It is designed to detect and alert on abnormal behavior and potential security threats in real-time.
+
+  At its core, Falco is a kernel monitoring and detection agent that observes events, such as syscalls, based on custom rules. Falco can enhance these events by integrating metadata from the container runtime and Kubernetes. The collected events can be analyzed off-host in SIEM or data lake systems.
+</details>
+<details>
+  <summary> SecureCodeBox </summary>
+  secureCodeBox is a kubernetes based, modularized toolchain for continuous security scans of your software project. Its goal is to orchestrate and easily automate a bunch of security-testing tools out of the box.
+
+  With the secureCodeBox we provide a toolchain for continuous scanning of applications to find the low-hanging fruit issues early in the development process and free the resources of the penetration tester to concentrate on the major security issues.
+
+  The purpose of secureCodeBox is not to replace the penetration testers or make them obsolete. We strongly recommend to run extensive tests by experienced penetration testers on all your applications.
+</details>
 
 ## Notes
 
@@ -278,6 +301,7 @@ Before enabling the **Kubecost** addon for your Amazon EKS cluster, please make 
 | <a name="input_falco_enabled"></a> [falco\_enabled](#input\_falco\_enabled) | Enable falco for security alerts. | `bool` | `true` | no |
 | <a name="input_ingress_nginx_enabled"></a> [ingress\_nginx\_enabled](#input\_ingress\_nginx\_enabled) | Enable or disable Nginx Ingress Controller add-on for routing external traffic to Kubernetes services. | `bool` | `false` | no |
 | <a name="input_ingress_nginx_version"></a> [ingress\_nginx\_version](#input\_ingress\_nginx\_version) | Specify the version of the NGINX Ingress Controller | `string` | `"4.7.0"` | no |
+| <a name="input_ingress_type"></a> [ingress\_type](#input\_ingress\_type) | Whether public or private ingress will be used for kubecost and kubeclarity. | `string` | `"public"` | no |
 | <a name="input_internal_ingress_nginx_enabled"></a> [internal\_ingress\_nginx\_enabled](#input\_internal\_ingress\_nginx\_enabled) | Enable or disable the deployment of an internal ingress controller for Kubernetes. | `bool` | `false` | no |
 | <a name="input_ipv6_enabled"></a> [ipv6\_enabled](#input\_ipv6\_enabled) | whether IPv6 enabled or not | `bool` | `false` | no |
 | <a name="input_istio_config"></a> [istio\_config](#input\_istio\_config) | Configuration to provide settings for Istio | <pre>object({<br>    ingress_gateway_enabled       = bool<br>    ingress_gateway_namespace     = optional(string, "istio-ingressgateway")<br>    egress_gateway_enabled        = bool<br>    egress_gateway_namespace      = optional(string, "istio-egressgateway")<br>    envoy_access_logs_enabled     = bool<br>    prometheus_monitoring_enabled = bool<br>  })</pre> | <pre>{<br>  "egress_gateway_enabled": false,<br>  "envoy_access_logs_enabled": true,<br>  "ingress_gateway_enabled": true,<br>  "prometheus_monitoring_enabled": true<br>}</pre> | no |

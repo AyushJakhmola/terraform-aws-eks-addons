@@ -37,3 +37,8 @@ output "istio_ingressgateway_dns_hostname" {
   value       = module.eks-addons.istio_ingressgateway_dns_hostname
   description = "DNS hostname of the Istio Ingress Gateway"
 }
+
+output "defectdojo" {
+  description = "DefectDojo endpoint and credentials"
+  value       = module.eks-addons.defectdojo
+}
