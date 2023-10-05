@@ -8,8 +8,9 @@ locals {
     Department = "Engineering"
   }
   ipv6_enabled = true
-  ingress_type = "public" ## public is Ingress and private is internal-ingress-nginx
+  ingress_type = "public"
   domain_name  = "mgt.pro.inn"
+  
 }
 
 data "aws_route53_zone" "selected" {
@@ -48,7 +49,6 @@ module "eks-addons" {
   ingress_nginx_enabled               = true
   metrics_server_enabled              = true
   external_secrets_enabled            = true
-  amazon_eks_vpc_cni_enabled          = true
   cluster_autoscaler_enabled          = true
   service_monitor_crd_enabled         = true
   enable_aws_load_balancer_controller = true

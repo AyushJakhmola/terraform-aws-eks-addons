@@ -3,7 +3,7 @@ data "aws_vpc" "existing_vpc" {
 }
 module "efs" {
   source                        = "cloudposse/efs/aws"
-  version                       = "0.32.7"
+  version                       = "0.34.0"
   kms_key_id                    = var.kms_key_id
   name                          = format("%s-%s-efs", var.environment, var.name)
   region                        = var.region

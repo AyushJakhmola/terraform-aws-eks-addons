@@ -108,7 +108,7 @@ variable "aws_load_balancer_version" {
 
 variable "ingress_nginx_version" {
   description = "Specify the version of the NGINX Ingress Controller"
-  default     = "4.7.0"
+  default     = "4.8.0"
   type        = string
 }
 
@@ -180,12 +180,6 @@ variable "worker_iam_role_arn" {
 
 variable "aws_node_termination_handler_enabled" {
   description = "Enable or disable node termination handler"
-  default     = false
-  type        = bool
-}
-
-variable "amazon_eks_vpc_cni_enabled" {
-  description = "Enable or disable the installation of the Amazon EKS VPC CNI addon. "
   default     = false
   type        = bool
 }

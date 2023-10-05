@@ -123,7 +123,6 @@ module "k8s_addons" {
     ]
   }
 
-  enable_amazon_eks_vpc_cni        = var.amazon_eks_vpc_cni_enabled
   enable_aws_efs_csi_driver        = var.efs_storage_class_enabled
   aws_efs_csi_driver_irsa_policies = [var.kms_policy_arn]
 
@@ -232,7 +231,7 @@ resource "helm_release" "internal_nginx" {
   count      = var.internal_ingress_nginx_enabled ? 1 : 0
   name       = "internal-ingress-nginx"
   chart      = "ingress-nginx"
-  version    = "4.7.0"
+  version    = "4.8.0"
   namespace  = "internal-ingress-nginx"
   repository = "https://kubernetes.github.io/ingress-nginx"
   values = [
@@ -282,7 +281,7 @@ resource "helm_release" "kubeclarity" {
   count      = var.kubeclarity_enabled ? 1 : 0
   name       = "kubeclarity"
   chart      = "kubeclarity"
-  version    = "2.18.0"
+  version    = "2.21.0"
   namespace  = var.kubeclarity_namespace
   repository = "https://openclarity.github.io/kubeclarity"
   values = [
@@ -395,7 +394,7 @@ resource "helm_release" "vpa-crds" {
   namespace  = "kube-system"
   repository = "https://cowboysysop.github.io/charts/"
   chart      = "vertical-pod-autoscaler"
-  version    = "7.2.0"
+  version    = "9.3.0"
   timeout    = 600
   values = [
     file("${path.module}/modules/vpa_crds/values.yaml")
