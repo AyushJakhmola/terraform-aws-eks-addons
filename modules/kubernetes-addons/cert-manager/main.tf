@@ -11,7 +11,7 @@ resource "helm_release" "cert_manager_ca" {
   count     = var.manage_via_gitops ? 0 : 1
   name      = "cert-manager-ca"
   chart     = "${path.module}/cert-manager-ca"
-  version   = "0.2.0"
+  version   = "0.1.6"
   namespace = local.helm_config["namespace"]
 
   depends_on = [module.helm_addon]
@@ -21,7 +21,7 @@ resource "helm_release" "cert_manager_letsencrypt" {
   count     = var.manage_via_gitops || !var.install_letsencrypt_issuers ? 0 : 1
   name      = "cert-manager-letsencrypt"
   chart     = "${path.module}/cert-manager-letsencrypt"
-  version   = "0.1.0"
+  version   = "0.1.1"
   namespace = local.helm_config["namespace"]
 
   set {
